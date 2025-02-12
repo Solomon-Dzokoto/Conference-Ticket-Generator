@@ -21,7 +21,7 @@ const SelectTicketDetails = () => {
     }
     const onSubmit = () => {
         if(!numberOfTickets || !select ){
-            c
+            console.log()
             return
     }
 }
