@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import axios, { Axios, AxiosError } from "axios";
+import axios from "axios"
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import { MdOutlineEmail } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,7 @@ import * as yup from "yup"
 
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
-const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
+const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
 
 export default function AttendeeDetails() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -18,7 +18,7 @@ export default function AttendeeDetails() {
         email: "",
         specialRequest: "",
     });
-    const [state,setState] = useState({
+    const [state,setState] = useState<{ loading: boolean; errorMessage: string | null }>({
         loading: false,
         errorMessage : null
     })
@@ -37,7 +37,8 @@ export default function AttendeeDetails() {
     const { name, email, specialRequest } = credential;
 
 
-    console.log(import.meta.env.VITE_CLOUD_NAME);
+    console.log(CLOUD_NAME);
+    console.log(UPLOAD_PRESET);
 
     interface FileWithPreview extends File {
         preview: string;
@@ -51,13 +52,16 @@ export default function AttendeeDetails() {
             formData.append("file", file);
             formData.append("upload_preset", UPLOAD_PRESET);
     
-            const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, formData);
+            const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload
+`, formData);
     
+            console.log("Successful upload",data)
             setImageUrl(data.secure_url);
         }catch(error){
           console.error("Could not submit file",error?.message)
-          setState(prev=>({...prev,errorMessage:error?.message}))
-          
+          if(error){
+            setState(prev=>({...prev,errorMessage:"Server problem"}))
+          }  
         }
      
     }, []);
@@ -75,9 +79,9 @@ export default function AttendeeDetails() {
                 <p>Step 3/3</p>
             </div>
 
-
-            <div className="border-[#0E464F]  grid gap-4 rounded-2xl p-4 border">
-                <h1 className="mb-4">Upload Profile Photo</h1>
+            <div className="border-[#0E464F] relative  grid gap-4 rounded-2xl p-4 border">
+                <h1 className="w-fit inline-block">Upload Profile Photo</h1>
+                <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
                 <div className="bg-[#041E23] h-[8rem] relative">
 
 
