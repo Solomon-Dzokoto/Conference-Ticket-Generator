@@ -11,8 +11,6 @@ const BookTicket = () => {
                     <h2 className="text-2xl font-bold text-center mb-2 tracking-wide">
                         Techember Fest '25
                     </h2>
-
-
                     <div className="text-center text-sm mb-4">
                         <p className="flex items-center justify-center gap-2">
                             📍 04 Rumens Road, Ikoyi, Lagos
