@@ -1,0 +1,3 @@
+deep = #041E23
+second = #0E464F
+third = #24A0B5
