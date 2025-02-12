@@ -1,6 +1,30 @@
+import { useState } from "react"
 
 
 const SelectTicketDetails = () => {
+    const data = [
+        { id:1, type:"Free", name: 'Regular Access',  available: "20/52"},
+        { id:2, type:"$ 150", name: 'VIP Access',  available: "20/52"},
+        { id:3, type:"$ 150", name: 'VVIP Access',  available: "20/52"},
+    ]
+    const [select,setSelected] = useState<number | null>(null)
+    const [numberOfTickets,setNumberOfTickets] = useState<number | null>(1)
+
+    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setNumberOfTickets(parseInt(e.target.value))
+    }
+    console.log(numberOfTickets)
+
+    const onSelect = (id:number) => {
+        setSelected(id)  
+
+    }
+    const onSubmit = () => {
+        if(!numberOfTickets || !select ){
+            c
+            return
+    }
+}
     return (
         <div className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#041E23] mx-auto border " >
             <div className="flex justify-between items-center">
@@ -15,28 +39,28 @@ const SelectTicketDetails = () => {
                     <p>📍 [Event Location] || March 15,2025| 7:00 MP </p>
                 </article>
                 <p >Select Ticket Type:</p>
-                <div className="flex items-center  gap-4 p-3 rounded-2xl justify-between">
-                    <article className="p-4 bg-[#0e464f98] w-full text-[#f4f4f4] border border-[#0E464F] rounded-2xl " >
-                        <h2 className="text-white  font-semibold text-[1.2rem]  mb-2 "> Free </h2>
-                        <p className="uppercase">Regular Access</p>
-                        <small>20/25</small>
-                    </article>
-                    <article className="p-4 text-[#f4f4f4] w-full border border-[#0E464F] rounded-2xl " >
-                        <h2 className="text-white font-semibold text-[1.2rem]  mb-2 "> $ 150 </h2>
-                        <p>VIP Access</p>
-                        <small>20/25</small>
-                    </article>
-                    <article className="p-4 text-[#f4f4f4] w-full border border-[#0E464F] rounded-2xl " >
-                        <h2 className="text-white font-semibold text-[1.2rem]  mb-2 "> $ 150 </h2>
-                        <p>VVIP Access</p>
-                        <small>20/25</small>
-                    </article>
+                <label htmlFor="select" className="flex items-center  gap-4 p-3 rounded-2xl justify-between">
+                    {
+                        data.map(item=> (
+                            <article
+                            key={item.id}
+                            onClick={()=>onSelect(item.id)}
+                            className={`p-4 ${item.id == select ?"bg-[#12464E]":"bg-[#0e464f98]"} relative cursor-pointer hover:bg-[#2C545B] bg-[#0e464f98] w-full text-[#f4f4f4] border border-[#0E464F] rounded-2xl `}>
+                            <input value={item.id} className="absolute inset-0 hidden " type="radio" name="select" id="" />
+                            <h2 className="text-white  font-semibold text-[1.2rem]  mb-2 "> {item.type} </h2>
+                            <p className="uppercase">{item.name}</p>
+                            <small>{item.available}</small>
+                        </article>
+                        ))
+                    }
 
-                </div>
+                </label>
                 <p>Number of Tickets</p>
    
-                    <select name="" className="w-full rounded-xl p-2 focus:outline-0 border border-[#0E464F]" >
-                        <option value="1">1</option>
+                    <select
+                    onChange={onChange}
+                    className="w-full rounded-xl p-2 focus:outline-0 border border-[#0E464F]" >
+                        <option defaultValue={numberOfTickets as number} value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>

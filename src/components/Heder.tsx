@@ -33,8 +33,8 @@ const Header = () => {
                     ))}
                 </ul>
             </nav>
-            <button className="bg-[#f4f4f4] flex group text-[#041E23] p-2 hover:bg-[#24A0B5] hover:text-[#f4f4f4] px-4 rounded-md">
-                My Ticket <span><IoIosArrowRoundForward /></span>
+            <button className="bg-[#f4f4f4] items-center flex group text-[#041E23] p-2 hover:bg-[#24A0B5] transition-bg duration-200 hover:text-[#f4f4f4] px-4 rounded-md">
+                My Ticket <span className="group-hover:-rotate-45  transition-rotate duration-300 transition-all text-xl"><IoIosArrowRoundForward /></span>
             </button>
         </header>
     );
