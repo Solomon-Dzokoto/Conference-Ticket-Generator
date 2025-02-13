@@ -97,9 +97,9 @@ export default function AttendeeDetails() {
         <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#04272e] mx-auto border ">
             <div className="flex justify-between items-center">
                 <h2>Ticket Selection</h2>
-                <p>Step 3/3</p>
+                <p>Step 2/3</p>
             </div>
-
+            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%]  after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
             <div className="border-[#0E464F] relative  grid gap-4 rounded-2xl p-4 border">
                 <h1 className="w-fit inline-block">Upload Profile Photo</h1>
                 <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
@@ -168,7 +168,7 @@ export default function AttendeeDetails() {
                 </div>
 
 
-                <div className="flex gap-4">
+                <div className="flex relative z-10 gap-4">
                     <button onClick={() => navigate(-1)} className=" w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4]  px-4 rounded-md">Back</button>
                     <button disabled={loading} type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5]  px-4 rounded-md">
                         {

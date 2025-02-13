@@ -24,7 +24,7 @@ const Header = () => {
         if (index === 1) {
             access()
         } else if (index === 0) {
-            navigate("/attendee-ticket")
+            navigate("/")
         } else {
             return null
         }

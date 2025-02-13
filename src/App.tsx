@@ -7,16 +7,17 @@ import Layout from "./components/Layout"
 
 const App = () => {
   return (
-    <div className="text-white  py-8 bg-[#041E23] min-h-full ">
+    <div className="text-white relative py-8 bg-[#02191D] min-h-full ">
       <Router>
         <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<SelectTicketDetails />} />
+          <Route  path="/" element={<Layout />}>
+            <Route index element={<SelectTicketDetails />} />
             <Route path="/attendee-ticket" element={<AttendeeDetails />} />
             <Route path="/book-ticket" element={<BookTicket />} />
           </Route>
         </Routes>
       </Router>
+      <div className="absolute bottom-0 z-1 left-0 w-full "><img className=" left-0 w-full h-full bg-black opacity-50" src="/assets/Screen Shot 2025-02-13 at 12.45.01 PM.png" alt="overlay" /></div>
     </div>
   )
 }

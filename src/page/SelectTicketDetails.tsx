@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export const data = [
     { id: 1, type: "Free", name: 'Regular Access', available: "20/52" },
     { id: 2, type: "$ 150", name: 'VIP Access', available: "20/52" },
@@ -53,8 +54,9 @@ const SelectTicketDetails = () => {
         <form onSubmit={onSubmit} className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#041E23] mx-auto border">
             <div className="flex justify-between items-center">
                 <h2>Ticket Selection</h2>
-                <p>Step 3/3</p>
+                <p>Step 1/3</p>
             </div>
+            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[75%]  after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
             <div className="border-[#0E464F] grid gap-4 rounded-2xl p-4 border">
                 <small className="text-red-600 mx-auto w-fit">{error}</small>
                 <article className="bg-gradient-to-br from-[#0e464f98] to-[#041E23] py-8 text-[#f4f4f4] text-center rounded-2xl border border-[#0E464F]">
@@ -99,7 +101,7 @@ const SelectTicketDetails = () => {
                     <option value="3">3</option>
                     <option value="4">4</option>
                 </select>
-                <div className="flex gap-4">
+                <div className="flex relative z-10 gap-4">
                     <button onClick={cancelChoices} className="w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] px-4 rounded-md">Cancel</button>
                     <button type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] cursor-pointer text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] px-4 rounded-md">Next</button>
                 </div>
