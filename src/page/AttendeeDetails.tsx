@@ -6,7 +6,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
-
+import { useNavigate } from "react-router-dom";
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
@@ -18,12 +18,12 @@ export default function AttendeeDetails() {
         email: "",
         specialRequest: "",
     });
-    const [state,setState] = useState<{ loading: boolean; errorMessage: string | null }>({
+    const [state, setState] = useState<{ loading: boolean; errorMessage: string | null }>({
         loading: false,
-        errorMessage : null
+        errorMessage: null
     })
-    const {errorMessage,loading} = state;
-
+    const { errorMessage, loading } = state;
+    const navigate = useNavigate()
     const schema = yup.object().shape({
         name: yup.string().required("Name is required"),
         email: yup.string().required("Email is required").email("Invalid email"),
@@ -36,34 +36,29 @@ export default function AttendeeDetails() {
 
     const { name, email, specialRequest } = credential;
 
-
-    console.log(CLOUD_NAME);
-    console.log(UPLOAD_PRESET);
-
     interface FileWithPreview extends File {
         preview: string;
     }
 
-
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
-        try{
+        try {
             const file = acceptedFiles[0] as FileWithPreview;
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", UPLOAD_PRESET);
-    
-            const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload
-`, formData);
-    
-            console.log("Successful upload",data)
+
+            const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, formData);
+
+            console.log("Successful upload", data)
             setImageUrl(data.secure_url);
-        }catch(error){
-          console.error("Could not submit file",error?.message)
-          if(error){
-            setState(prev=>({...prev,errorMessage:"Server problem"}))
-          }  
+            return data.secure_url;
+        } catch (error: any) {
+            console.error("Could not submit file", error.message)
+            if (error) {
+                setState(prev => ({ ...prev, errorMessage: "Could not submit file" }))
+            }
         }
-     
+
     }, []);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -72,8 +67,32 @@ export default function AttendeeDetails() {
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: { 'image/*': [] } });
 
+    const onSubmit = () => {
+        console.log("submitting")
+        setState(prev => ({ ...prev, loading: true }))
+        try {
+    
+            if (!credential || !imageUrl) {
+                console.log("fill in all the form")
+                setState(prev => ({ ...prev, errorMessage: "Fill in the form" }))
+            }
+            const data = {
+                name,
+                email,
+                specialRequest,
+                imageUrl,
+            }
+            localStorage.setItem("personInfo", JSON.stringify(data))
+            navigate('/book-ticket')
+        } catch (err: any) {
+            setState(prev => ({ ...prev, loading: false, errorMessage: err.message }))
+        }
+
+    }
+
+
     return (
-        <div className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#04272e] mx-auto border ">
+        <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#04272e] mx-auto border ">
             <div className="flex justify-between items-center">
                 <h2>Ticket Selection</h2>
                 <p>Step 3/3</p>
@@ -82,11 +101,10 @@ export default function AttendeeDetails() {
             <div className="border-[#0E464F] relative  grid gap-4 rounded-2xl p-4 border">
                 <h1 className="w-fit inline-block">Upload Profile Photo</h1>
                 <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
+              
                 <div className="bg-[#041E23] h-[8rem] relative">
-
-
-                    <div {...getRootProps()} className="border-2 absolute w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-8 bg-[#249fb54b]  rounded-[2rem]  -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer" >
-                        <input type="file" {...register} {...getInputProps()} />
+                    <div {...getRootProps()} className="border-2 absolute w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b]  rounded-[2rem]  -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer" >
+                        <input type="file" {...getInputProps()} />
                         {imageUrl ? (
                             <img src={imageUrl} alt="Uploaded" className="w-full h-40 object-cover rounded-md" />
                         ) : (
@@ -117,7 +135,7 @@ export default function AttendeeDetails() {
                             Enter your email *
                             <span className="absolute top-[3.2rem] left-[.5rem] "><MdOutlineEmail /></span>
                             <input
-                            {...register("email")}
+                                {...register("email")}
                                 type="email"
                                 id="email"
                                 name="email"
@@ -133,10 +151,9 @@ export default function AttendeeDetails() {
                     <label htmlFor="text">
                         Specific request?
                         <textarea
-                        {...register("specialRequest")}
+                            {...register("specialRequest")}
                             placeholder="Textarea?"
                             name="specialRequest"
-                            minLength={100}
                             className="mt-2 border border-[#0E464F] h-[10rem] p-2 outline-[#24A0B5] rounded text-white w-full "
                             value={specialRequest}
                             onChange={onChange}
@@ -146,13 +163,16 @@ export default function AttendeeDetails() {
                 </div>
 
 
-
-
                 <div className="flex gap-4">
-                    <button className=" w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4]  px-4 rounded-md">Back</button>
-                    <button className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5]  px-4 rounded-md">Get My Free Ticket</button>
+                    <button onClick={() => navigate(-1)} className=" w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4]  px-4 rounded-md">Back</button>
+                    <button disabled={loading} type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5]  px-4 rounded-md">
+                        {
+                            loading ? <>Wait...</> : " Get My Free Ticket"
+                        }
+
+                    </button>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }
