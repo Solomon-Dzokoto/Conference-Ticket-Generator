@@ -12,7 +12,7 @@ const Header = () => {
 
     const details = getDetails();
     const navigate = useNavigate();
-    const access = () => details ? navigate("/book-ticket") : null
+    const access = () => details ? navigate("/book-ticket") : navigate('/')
 
 
 

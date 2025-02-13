@@ -94,129 +94,111 @@ export default function AttendeeDetails() {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
+        <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
+    
             <div className="flex justify-between items-center">
                 <h2 className="text-lg md:text-xl">Ticket Selection</h2>
                 <p className="text-sm md:text-base">Step 2/3</p>
             </div>
+
+
             <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
+
             <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
                 <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
-                <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
+                <small className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">{errorMessage}</small>
 
-                <div className="bg-[#041E23] h-[8rem] relative">
-                    <div {...getRootProps()} className="border-2 absolute w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b]  rounded-[2rem]  -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer" >
+           
+                <div className="bg-[#041E23] h-[8rem] sm:h-[10rem] md:h-[12rem] relative">
+                    <div {...getRootProps()} className="border-2 absolute w-[80%] sm:w-[60%] md:w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b] rounded-[2rem] -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer">
                         <input type="file" {...getInputProps()} />
                         {imageUrl ? (
-                            <img src={imageUrl} alt="Uploaded" className="w-full h-40 object-cover rounded-md" />
+                            <img src={imageUrl} alt="Uploaded" className="w-full h-32 sm:h-36 md:h-40 object-cover rounded-md" />
                         ) : (
-                            <div className="text-center ">
-                                <span className="  inline-block mx-auto "><AiOutlineCloudDownload size={20} />
+                            <div className="text-center p-4">
+                                <span className="inline-block mx-auto mb-2">
+                                    <AiOutlineCloudDownload size={24} className="mx-auto" />
                                 </span>
-                                <p className="text-center ">{
-                                    loading ? <span className="animate-spin"><RiLoader2Fill /></span>
-                                        : "Drag & drop or click to upload"
-                                } </p>
+                                <p className="text-sm md:text-base">
+                                    {loading ? 
+                                        <span className="animate-spin inline-block"><RiLoader2Fill /></span> : 
+                                        "Drag & drop or click to upload"
+                                    }
+                                </p>
                             </div>
                         )}
                     </div>
                 </div>
-                <div className=" grid gap-4 ">
-                    <label htmlFor="name">
-                        Enter Your Name
-                        <input
-                            {...register("name")}
-                            type="text"
-                            id="name"
-                            name="name"
-                            className="mt-4 p-2 border border-[#0E464F] outline-[#24A0B5] rounded text-white w-full"
-                            value={name}
-                            onChange={onChange}
-                        />
-                    </label>
-                    {errors?.name?.message && (<small className="text-red-600">{errors.name.message}</small>)}
-                    <div className="relative">
-                        <label htmlFor="email relative">
-                            Enter your email *
-                            <span className="absolute top-[3.2rem] left-[.5rem] "><MdOutlineEmail /></span>
+
+    
+                <div className="grid gap-6">
+                    <div className="space-y-2">
+                        <label htmlFor="name" className="block text-sm md:text-base">
+                            Enter Your Name
                             <input
-                                {...register("email")}
-                                type="email"
-                                id="email"
-                                name="email"
-                                className="mt-4 pl-8  border border-[#0E464F] p-2 outline-[#24A0B5] rounded text-white w-full"
-                                value={email}
+                                {...register("name")}
+                                type="text"
+                                id="name"
+                                name="name"
+                                className="mt-2 p-3 border border-[#0E464F] outline-[#24A0B5] rounded text-white w-full text-sm md:text-base"
+                                value={name}
                                 onChange={onChange}
                             />
                         </label>
+                        {errors?.name?.message && (
+                            <small className="text-red-600 block mt-1">{errors.name.message}</small>
+                        )}
                     </div>
-                    {errors?.email?.message && (<small className="text-red-600">{errors.email.message}</small>)}
 
+                    <div className="space-y-2">
+                        <label htmlFor="email" className="block text-sm md:text-base">
+                            Enter your email *
+                            <div className="relative">
+                                <span className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400">
+                                    <MdOutlineEmail />
+                                </span>
+                                <input
+                                    {...register("email")}
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className="mt-2 pl-10 p-3 border border-[#0E464F] outline-[#24A0B5] rounded text-white w-full text-sm md:text-base"
+                                    value={email}
+                                    onChange={onChange}
+                                />
+                            </div>
+                        </label>
+                        {errors?.email?.message && (
+                            <small className="text-red-600 block mt-1">{errors.email.message}</small>
+                        )}
+                    </div>
 
-                    <label htmlFor="text">
-                        Specific request?
-                        <textarea
-                            {...register("specialRequest")}
-                            placeholder="Textarea?"
-                            name="specialRequest"
-                            className="mt-2 border border-[#0E464F] h-[10rem] p-2 outline-[#24A0B5] rounded text-white w-full "
-                            value={specialRequest}
-                            onChange={onChange}
-                        />
-                    </label>
-                    {errors?.specialRequest?.message && (<small className="text-red-600">{errors.specialRequest.message}</small>)}
+                    <div className="space-y-2">
+                        <label htmlFor="specialRequest" className="block text-sm md:text-base">
+                            Special request?
+                            <textarea
+                                {...register("specialRequest")}
+                                id="specialRequest"
+                                name="specialRequest"
+                                placeholder="Any special requirements?"
+                                className="mt-2 p-3 border border-[#0E464F] h-[8rem] md:h-[10rem] outline-[#24A0B5] rounded text-white w-full text-sm md:text-base"
+                                value={specialRequest}
+                                onChange={onChange}
+                            />
+                        </label>
+                        {errors?.specialRequest?.message && (
+                            <small className="text-red-600 block mt-1">{errors.specialRequest.message}</small>
+                        )}
+                    </div>
                 </div>
 
-
-                <div className="flex                 return (
-                    <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
-                        <div className="flex justify-between items-center">
-                            <h2 className="text-lg md:text-xl">Ticket Selection</h2>
-                            <p className="text-sm md:text-base">Step 2/3</p>
-                        </div>
-                        <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
-                        <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
-                            <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
-                            <small className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">
-                                {errorMessage}
-                            </small>
-                
-                            {/* Upload section */}
-                            <div className="bg-[#041E23] h-[8rem] relative">
-                                <div {...getRootProps()} className="border-2 absolute w-[80%] md:w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b] rounded-[2rem] -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer">
-                                    {/* ...existing upload content... */}
-                                </div>
-                            </div>
-                
-                            {/* Form fields */}
-                            <div className="grid gap-4">
-                                {/* ...existing form fields with responsive text sizes... */}
-                                <input
-                                    {...register("name")}
-                                    className="mt-4 p-2 border border-[#0E464F] outline-[#24A0B5] rounded text-white w-full text-sm md:text-base"
-                                    // ...other props
-                                />
-                                {/* ...other form fields... */}
-                            </div>
-                
-                            {/* Buttons */}
-                            <div className="flex relative z-10 gap-4 flex-col md:flex-row">
-                                <button onClick={() => navigate(-1)} className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">
-                                    Back
-                                </button>
-                                <button disabled={loading} type="submit" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">
-                                    {loading ? "Wait..." : "Get My Free Ticket"}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                ); gap-4">
-                    <button onClick={() => navigate(-1)} className=" w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4]  px-4 rounded-md">Back</button>
-                    <button disabled={loading} type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5]  px-4 rounded-md">
-                        {
-                            loading ? <>Wait...</> : " Get My Free Ticket"
-                        }
-
+           
+                <div className="flex relative z-10 gap-4 flex-col md:flex-row">
+                    <button onClick={() => navigate(-1)} className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">
+                        Back
+                    </button>
+                    <button disabled={loading} type="submit" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">
+                        {loading ? "Wait..." : "Get My Free Ticket"}
                     </button>
                 </div>
             </div>

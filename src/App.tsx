@@ -17,7 +17,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
-      <div className="absolute bottom-0 z-1 left-0 w-full "><img className=" left-0 w-full h-full bg-black opacity-50" src="/assets/Screen Shot 2025-02-13 at 12.45.01 PM.png" alt="overlay" /></div>
+      <div className="absolute bottom-0 z-8 left-0 w-full "><img className=" left-0 w-full h-full bg-black opacity-50" src="/assets/Screen Shot 2025-02-13 at 12.45.01 PM.png" alt="overlay" /></div>
     </div>
   )
 }
