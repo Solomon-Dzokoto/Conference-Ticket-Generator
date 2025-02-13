@@ -51,8 +51,8 @@ const SelectTicketDetails = () => {
         }
 
         return (
-        <form onSubmit={onSubmit} aria-labelledby="ticket-selection-title" className="rounded-2xl relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#041E23] mx-auto border">
-            <h1 id="ticket-selection-title" className="sr-only">Ticket Selection Form</h1>
+        <form onSubmit={onSubmit} aria-labelledby="ticket-selection-title" className="rounded-2xl relative z-10  p-4 md:p-8 animate__animated animate__fadeInLeft shadow-xs shadow-[#24A0B5] min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#041E23] mx-auto border">
+            <h1 id="ticket-selection-title" className="sr-only font-roadRange ">Ticket Selection Form</h1>
             <div className="flex justify-between items-center">
                 <h2 className="text-lg md:text-xl">Ticket Selection</h2>
                 <p className="text-sm md:text-base">Step 1/3</p>

@@ -33,7 +33,7 @@ const Header = () => {
 
     return (
         <header className="justify-between w-[80vw] mx-auto items-center p-4 rounded-2xl border border-[#24A0B5] mb-8  flex">
-            <span onClick={()=>navigate('/')} className="">
+            <span onClick={()=>navigate('/')} className="animate-bounce">
                 <img src="assets/Frame 1618871078.png" alt="logo" />
             </span>
             <nav className="hidden md:block">

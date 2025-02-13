@@ -133,7 +133,7 @@ export default function AttendeeDetails() {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} aria-labelledby="attendee-details-title" className="rounded-2xl relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
+        <form onSubmit={handleSubmit(onSubmit)} aria-labelledby="attendee-details-title" className="rounded-2xl animate__animated animate__fadeInDown relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
             <h1 id="attendee-details-title" className="sr-only">Attendee Details Form</h1>
             <div className="flex justify-between items-center">
                 <h2 className="text-lg md:text-xl">Ticket Selection</h2>
@@ -148,8 +148,8 @@ export default function AttendeeDetails() {
                 <small role="alert" className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">{errorMessage}</small>
 
 
-                <div className="bg-[#041E23] h-[8rem] sm:h-[10rem] md:h-[12rem] relative">
-                    <div {...getRootProps()} role="button" tabIndex={0} aria-label="Upload profile photo. Click or drag and drop an image file here." className="border-2 absolute w-[80%] sm:w-[60%] md:w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b] rounded-[2rem] -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer">
+                <div className="bg-[#041E23] h-[8rem] sm:h-[10rem] md:h-[10rem] relative">
+                    <div {...getRootProps()} role="button" tabIndex={0} aria-label="Upload profile photo. Click or drag and drop an image file here." className="border-2 absolute w-[80%] sm:w-[60%] md:w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] md:h-[12rem] p-4 bg-[#249fb54b]  rounded-[2rem] -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer">
                         <input type="file" {...getInputProps()} />
                         {imageUrl ? (
                             <img src={imageUrl} alt="Uploaded" className="w-full h-32 sm:h-36 md:h-40 object-cover rounded-md" />
@@ -160,8 +160,11 @@ export default function AttendeeDetails() {
                                 </span>
                                 <p className="text-sm md:text-base">
                                     {loading ?
-                                        <span className="animate-spin inline-block"><RiLoader2Fill /></span> :
-                                        "Drag & drop or click to upload"
+                                        <span className="animate-spin inline-block"><RiLoader2Fill /></span> :(<>
+                                        <p> Drag & drop or click to upload</p>
+                                        <small className="text-red-500 absolute left-8 bottom-2 text-[.4rem] ">image of [jpg,png,jpeg,webp] and max size of 5MB</small>
+                                        </>)
+                                       
                                     }
                                 </p>
                             </div>

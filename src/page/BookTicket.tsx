@@ -25,7 +25,7 @@ const BookTicket = () => {
 
 
     return (
-        <div className="w-[90%] md:w-[80vw] grid gap-4 mx-auto relative z-10  px-4 md:px-0">
+        <div className="w-[90%] md:w-[80vw] grid  gap-4 mx-auto relative z-10  px-4 md:px-0">
             <div className="flex justify-between items-center">
                 <h2 className="text-base md:text-lg">Ready</h2>
                 <p className="text-sm md:text-base">Step 3/3</p>
@@ -37,7 +37,7 @@ const BookTicket = () => {
                 </h1>
                 <p className="text-sm md:text-base mb-4 mt-2 text-center tracking-tighter-2 ">Check your email for a copy or you can <b>download</b> </p>
                 <div role="region" aria-label="Ticket details">
-                    <div className="w-ful l md:w-[35vw] mx-auto relative px-3 md:px-6 h-[70vh] md:h-[94vh] grid z-10 place-content-center gap-4  ">
+                    <div className="w-full animate__animated animate__fadeInTopLeft md:w-[35vw] mx-auto relative px-3 md:px-6 h-[70vh] md:h-[94vh] grid z-10 place-content-center gap-4  ">
                         <img src="/assets/TICKET.png" className=" absolute h-full inset-0 -z-10   w-full object-fit md:object-fit  "></img>
                         <div className="bg-[#072C31] text-white p-4 md:p-6 rounded-2xl shadow-lg border border-[#24A0B5]  w-full ">
                             <h2 className="text-lg md:text-xl font-bold text-center mb-2 tracking-wide">
@@ -93,7 +93,7 @@ const BookTicket = () => {
 
                         </div>
                         <div className="">
-                            <img src="/assets/Bar Code.png" alt="barcode" className="w-full relative top-6 md:top-[2rem] p-2 md:p-4 " />
+                            <img src="/assets/Bar Code.png" alt="barcode" className="w-full relative top-6 md:top-[2.2rem] p-2 md:p-4 " />
                         </div>
 
                     </div>
