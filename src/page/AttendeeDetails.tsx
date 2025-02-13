@@ -94,14 +94,14 @@ export default function AttendeeDetails() {
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#04272e] mx-auto border ">
+        <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
             <div className="flex justify-between items-center">
-                <h2>Ticket Selection</h2>
-                <p>Step 2/3</p>
+                <h2 className="text-lg md:text-xl">Ticket Selection</h2>
+                <p className="text-sm md:text-base">Step 2/3</p>
             </div>
-            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%]  after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
-            <div className="border-[#0E464F] relative  grid gap-4 rounded-2xl p-4 border">
-                <h1 className="w-fit inline-block">Upload Profile Photo</h1>
+            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
+            <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
+                <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
                 <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
 
                 <div className="bg-[#041E23] h-[8rem] relative">
@@ -168,7 +168,49 @@ export default function AttendeeDetails() {
                 </div>
 
 
-                <div className="flex relative z-10 gap-4">
+                <div className="flex                 return (
+                    <form onSubmit={handleSubmit(onSubmit)} className="rounded-2xl p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-lg md:text-xl">Ticket Selection</h2>
+                            <p className="text-sm md:text-base">Step 2/3</p>
+                        </div>
+                        <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
+                        <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
+                            <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
+                            <small className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">
+                                {errorMessage}
+                            </small>
+                
+                            {/* Upload section */}
+                            <div className="bg-[#041E23] h-[8rem] relative">
+                                <div {...getRootProps()} className="border-2 absolute w-[80%] md:w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b] rounded-[2rem] -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer">
+                                    {/* ...existing upload content... */}
+                                </div>
+                            </div>
+                
+                            {/* Form fields */}
+                            <div className="grid gap-4">
+                                {/* ...existing form fields with responsive text sizes... */}
+                                <input
+                                    {...register("name")}
+                                    className="mt-4 p-2 border border-[#0E464F] outline-[#24A0B5] rounded text-white w-full text-sm md:text-base"
+                                    // ...other props
+                                />
+                                {/* ...other form fields... */}
+                            </div>
+                
+                            {/* Buttons */}
+                            <div className="flex relative z-10 gap-4 flex-col md:flex-row">
+                                <button onClick={() => navigate(-1)} className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">
+                                    Back
+                                </button>
+                                <button disabled={loading} type="submit" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">
+                                    {loading ? "Wait..." : "Get My Free Ticket"}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                ); gap-4">
                     <button onClick={() => navigate(-1)} className=" w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4]  px-4 rounded-md">Back</button>
                     <button disabled={loading} type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5]  px-4 rounded-md">
                         {

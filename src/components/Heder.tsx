@@ -36,7 +36,7 @@ const Header = () => {
             <span className="">
                 <img src="assets/Frame 1618871078.png" alt="logo" />
             </span>
-            <nav>
+            <nav className="hidden md:block">
                 <ul className="flex items-center">
                     {navData.map((item, index) => (
                         <li
