@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom";
-
+import { RiLoader2Fill } from "react-icons/ri";
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
 
@@ -42,6 +42,7 @@ export default function AttendeeDetails() {
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         try {
+            setState(prev => ({ ...prev, loading: true }))
             const file = acceptedFiles[0] as FileWithPreview;
             const formData = new FormData();
             formData.append("file", file);
@@ -51,6 +52,7 @@ export default function AttendeeDetails() {
 
             console.log("Successful upload", data)
             setImageUrl(data.secure_url);
+            setState(prev => ({ ...prev, loading: false }))
             return data.secure_url;
         } catch (error: any) {
             console.error("Could not submit file", error.message)
@@ -71,7 +73,7 @@ export default function AttendeeDetails() {
         console.log("submitting")
         setState(prev => ({ ...prev, loading: true }))
         try {
-    
+
             if (!credential || !imageUrl) {
                 console.log("fill in all the form")
                 setState(prev => ({ ...prev, errorMessage: "Fill in the form" }))
@@ -101,7 +103,7 @@ export default function AttendeeDetails() {
             <div className="border-[#0E464F] relative  grid gap-4 rounded-2xl p-4 border">
                 <h1 className="w-fit inline-block">Upload Profile Photo</h1>
                 <small className="text-red-500 relative  -top-10 left-[16rem] mx-auto w-fit   ml-8">{errorMessage}</small>
-              
+
                 <div className="bg-[#041E23] h-[8rem] relative">
                     <div {...getRootProps()} className="border-2 absolute w-[15rem] border-[#24A0B5] h-fit min-h-[10rem] p-4 bg-[#249fb54b]  rounded-[2rem]  -top-5 left-1/2 -translate-x-1/2 text-center cursor-pointer" >
                         <input type="file" {...getInputProps()} />
@@ -111,7 +113,10 @@ export default function AttendeeDetails() {
                             <div className="text-center ">
                                 <span className="  inline-block mx-auto "><AiOutlineCloudDownload size={20} />
                                 </span>
-                                <p> Drag & drop or click to upload</p>
+                                <p className="text-center ">{
+                                    loading ? <span className="animate-spin"><RiLoader2Fill /></span>
+                                        : "Drag & drop or click to upload"
+                                } </p>
                             </div>
                         )}
                     </div>

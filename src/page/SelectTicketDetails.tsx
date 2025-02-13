@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+export const data = [
+    { id: 1, type: "Free", name: 'Regular Access', available: "20/52" },
+    { id: 2, type: "$ 150", name: 'VIP Access', available: "20/52" },
+    { id: 3, type: "$ 150", name: 'VVIP Access', available: "20/52" },
+];
 const SelectTicketDetails = () => {
-    const data = [
-        { id: 1, type: "Free", name: 'Regular Access', available: "20/52" },
-        { id: 2, type: "$ 150", name: 'VIP Access', available: "20/52" },
-        { id: 3, type: "$ 150", name: 'VVIP Access', available: "20/52" },
-    ];
+
     const [select, setSelected] = useState<number | null>(null);
     const [numberOfTickets, setNumberOfTickets] = useState<number | null>(1);
-    const [choice, setChoice] = useState<{ numberOfTickets: number | null, select: number | null } | null>(null);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
@@ -36,7 +36,20 @@ const SelectTicketDetails = () => {
         navigate('/attendee-ticket');
     };
 
-    return (
+    const cancelChoices = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation()
+        setSelected(null);
+        setNumberOfTickets(1);   
+        const choice = localStorage.getItem('ticketSelection');
+        if (choice) {
+            localStorage.removeItem('ticketSelection');
+        }
+        console.log("selections removed")
+        return null
+        }
+
+        return (
         <form onSubmit={onSubmit} className="rounded-2xl p-8 min-h-[38rem] grid gap-8 border-[#0E464F] w-[48rem] bg-[#041E23] mx-auto border">
             <div className="flex justify-between items-center">
                 <h2>Ticket Selection</h2>
@@ -87,7 +100,7 @@ const SelectTicketDetails = () => {
                     <option value="4">4</option>
                 </select>
                 <div className="flex gap-4">
-                    <button className="w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] px-4 rounded-md">Cancel</button>
+                    <button onClick={cancelChoices} className="w-full transition-colors cursor-pointer p-2 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] px-4 rounded-md">Cancel</button>
                     <button type="submit" className="border p-2 w-full bg-[#24A0B5] border-[#24A0B5] cursor-pointer text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] px-4 rounded-md">Next</button>
                 </div>
             </div>
