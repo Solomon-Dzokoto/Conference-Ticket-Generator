@@ -51,8 +51,8 @@ const SelectTicketDetails = () => {
         }
 
         return (
-        <form onSubmit={onSubmit} className="rounded-2xl relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#041E23] mx-auto border">
-    
+        <form onSubmit={onSubmit} aria-labelledby="ticket-selection-title" className="rounded-2xl relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#041E23] mx-auto border">
+            <h1 id="ticket-selection-title" className="sr-only">Ticket Selection Form</h1>
             <div className="flex justify-between items-center">
                 <h2 className="text-lg md:text-xl">Ticket Selection</h2>
                 <p className="text-sm md:text-base">Step 1/3</p>
@@ -64,7 +64,11 @@ const SelectTicketDetails = () => {
 
             <div className="border-[#0E464F] grid gap-4 rounded-2xl p-2 md:p-4 border">
             
-                <small className="text-red-600 mx-auto w-fit">{error}</small>
+                {error && (
+                    <small role="alert" className="text-red-600 mx-auto w-fit">
+                    {error}
+                    </small>
+                )}
                 
     
                 <article className="bg-gradient-to-br from-[#0e464f98] to-[#041E23] p-4 md:p-8 text-[#f4f4f4] text-center rounded-2xl border border-[#0E464F]">
@@ -81,10 +85,18 @@ const SelectTicketDetails = () => {
                 </article>
 
                 <p className="text-sm md:text-base font-medium">Select Ticket Type:</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div role="radiogroup" aria-label="Ticket type options" className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {data.map(item => (
                         <article
                             key={item.id}
+                            role="radio"
+                            aria-checked={item.id === select}
+                            tabIndex={0}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    onSelect(item.id)
+                                }
+                            }}
                             onClick={() => onSelect(item.id)}
                             className={`p-4 ${
                                 item.id === select ? "bg-[#12464E]" : "bg-[#0e464f98]"
@@ -111,6 +123,7 @@ const SelectTicketDetails = () => {
         
                 <p className="text-sm md:text-base font-medium mt-4">Number of Tickets</p>
                 <select
+                    aria-label="Number of tickets"
                     onChange={onChange}
                     className="w-full rounded-xl p-3 focus:ring-2 focus:ring-[#24A0B5] border border-[#0E464F] text-sm md:text-base bg-[#041E23] text-white"
                     value={numberOfTickets || 1}

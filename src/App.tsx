@@ -7,7 +7,7 @@ import Layout from "./components/Layout"
 
 const App = () => {
   return (
-    <div className="text-white relative py-8 bg-[#02191D] min-h-full ">
+    <div className="text-white relative py-8 pb-12 bg-[#02191D] min-h-full ">
       <Router>
         <Routes>
           <Route  path="/" element={<Layout />}>
