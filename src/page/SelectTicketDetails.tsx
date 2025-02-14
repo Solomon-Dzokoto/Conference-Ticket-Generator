@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import useErrorTimeout from "../hook/useTimeout.tsx"
 
 export const data = [
     { id: 1, type: "Free", name: 'Regular Access', available: "14/52" },
@@ -9,9 +9,10 @@ export const data = [
 ];
 const SelectTicketDetails = () => {
 
+
     const [select, setSelected] = useState<number | null>(null);
     const [numberOfTickets, setNumberOfTickets] = useState<number | null>(1);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useErrorTimeout<string | null>(null);
     const navigate = useNavigate();
 
     const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,11 +65,7 @@ const SelectTicketDetails = () => {
 
             <div className="border-[#0E464F] grid gap-4 rounded-2xl p-2 md:p-4 border">
 
-                {error && (
-                    <small role="alert" className="text-red-600 mx-auto w-fit">
-                        {error}
-                    </small>
-                )}
+           
 
 
                 <article className="bg-gradient-to-br from-[#0e464f98] to-[#041E23] p-4 md:p-8 text-[#f4f4f4] text-center rounded-2xl border border-[#0E464F]">
@@ -84,6 +81,12 @@ const SelectTicketDetails = () => {
                         <span>December 24, 2025 | 7:00 PM</span>
                     </p>
                 </article>
+
+                {error && (
+                    <small role="alert" className="text-red-600 animate-pulse  inline-block text-center mt-2 mx-auto w-fit">
+                        {error}
+                    </small>
+                )}
 
                 <p className="text-sm md:text-base font-medium">Select Ticket Type:</p>
                 <div role="radiogroup" aria-label="Ticket type options" className="grid grid-cols-1 md:grid-cols-3 gap-4">

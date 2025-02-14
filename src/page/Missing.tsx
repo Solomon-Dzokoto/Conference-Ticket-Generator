@@ -1,6 +1,6 @@
 
 
-const Welcome = () => {
+const Missing = () => {
   return (
     <div>
       
@@ -8,5 +8,4 @@ const Welcome = () => {
   )
 }
 
-
-export default Welcome
+export default Missing

@@ -3,6 +3,8 @@ import AttendeeDetails from "./page/AttendeeDetails"
 import BookTicket from "./page/BookTicket"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Layout from "./components/Layout"
+import NoTicket from "./page/NoTicket"
+import Missing from "./page/Missing"
 
 
 const App = () => {
@@ -14,6 +16,8 @@ const App = () => {
             <Route index element={<SelectTicketDetails />} />
             <Route path="/attendee-ticket" element={<AttendeeDetails />} />
             <Route path="/book-ticket" element={<BookTicket />} />
+            <Route path="/no-ticket" element={<NoTicket />} />
+            <Route path="*" element={<Missing />} />
           </Route>
         </Routes>
       </Router>

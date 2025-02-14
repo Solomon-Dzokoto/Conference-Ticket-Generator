@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom";
 import { RiLoader2Fill } from "react-icons/ri";
+import useTImeout from "../hook/useTImeout";
+import { time } from "framer-motion";
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
 
@@ -28,6 +30,37 @@ export default function AttendeeDetails() {
         loading: false,
         errorMessage: null
     })
+    const [timeoutError,setTimeoutError] = useTImeout(null)
+    const [formError,setFormError] = useTImeout(null)
+
+
+    
+
+
+
+    const {  loading } = state;
+    const navigate = useNavigate()
+    const schema = yup.object().shape({
+        name: yup.string().required("Name is required"),
+        email: yup.string().required("Email is required").email("Invalid email"),
+        specialRequest: yup.string().required("Special request is required")
+    })
+
+    const { handleSubmit, register, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    useEffect(()=>{
+      if(errors?.name?.message || errors?.email?.message || errors?.specialRequest?.message){
+        setFormError({
+            name : errors?.name?.message,
+            email : errors?.email?.message,
+            specialRequest: errors?.specialRequest?.message,
+        })
+      }
+
+    },[errors,setFormError])
+
     useEffect(() => {
         if (imageUrl) {
             localStorage.setItem("userUrl", imageUrl)
@@ -44,18 +77,12 @@ export default function AttendeeDetails() {
         localStorage.removeItem('userInfo');
     };
 
-
-    const { errorMessage, loading } = state;
-    const navigate = useNavigate()
-    const schema = yup.object().shape({
-        name: yup.string().required("Name is required"),
-        email: yup.string().required("Email is required").email("Invalid email"),
-        specialRequest: yup.string().required("Special request is required")
-    })
-
-    const { handleSubmit, register, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    })
+   useEffect(()=>{
+   if(!window.location.href.includes( "attendee-ticket")){
+     clearTempStorage()
+   } 
+   },[])
+  
 
     const { name, email, specialRequest } = credential;
 
@@ -81,6 +108,7 @@ export default function AttendeeDetails() {
             console.error("Could not submit file", error?.message)
             if (error) {
                 setState(prev => ({ ...prev, errorMessage: "Could not submit file" }))
+                setTimeoutError("Could not submit file")
             }
         }
 
@@ -107,12 +135,14 @@ export default function AttendeeDetails() {
             if (imageUrl === "" || imageUrl === null || !imageUrl) {
                 console.error("Provide your image")
                 setState(prev => ({ ...prev, loading: false, errorMessage: "Provide your image" }))
+                setTimeoutError("Provide your image")
                 return
             }
 
             if (!credential || !imageUrl) {
                 console.log("fill in all the form")
                 setState(prev => ({ ...prev, loading: false, errorMessage: "Fill in the form" }))
+                setTimeoutError("Fill in the form")
                 return
             }
             setState(prev => ({ ...prev, loading: true, errorMessage: "" }))
@@ -126,6 +156,7 @@ export default function AttendeeDetails() {
             clearTempStorage();
             navigate('/book-ticket')
         } catch (err: any) {
+            setTimeoutError(err.message)
             setState(prev => ({ ...prev, loading: false, errorMessage: err.message }))
         }
 
@@ -145,7 +176,6 @@ export default function AttendeeDetails() {
 
             <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
                 <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
-                <small role="alert" className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">{errorMessage}</small>
 
 
                 <div className="bg-[#041E23] h-[8rem] sm:h-[10rem] md:h-[10rem] relative">
@@ -172,6 +202,7 @@ export default function AttendeeDetails() {
                     </div>
                 </div>
 
+                <small role="alert" className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">{timeoutError}</small>
 
                 <div className="grid gap-6">
                     <div className="space-y-2">
@@ -189,8 +220,8 @@ export default function AttendeeDetails() {
                                 aria-describedby={errors.name ? "name-error" : undefined}
                             />
                         </label>
-                        {errors?.name?.message && (
-                            <small id="name-error" role="alert" className="text-red-600 block mt-1">{errors.name.message}</small>
+                        {formError?.name && (
+                            <small id="name-error" role="alert" className="text-red-600 animate-pulse block mt-1">{formError?.name}</small>
                         )}
                     </div>
 
@@ -214,8 +245,8 @@ export default function AttendeeDetails() {
                                 />
                             </div>
                         </label>
-                        {errors?.email?.message && (
-                            <small id="email-error" role="alert" className="text-red-600 block mt-1">{errors.email.message}</small>
+                        {formError?.email && (
+                            <small id="email-error" role="alert" className="text-red-600 animate-pulse block mt-1">{formError?.email}</small>
                         )}
                     </div>
 
@@ -234,14 +265,14 @@ export default function AttendeeDetails() {
                                 aria-describedby={errors.specialRequest ? "specialRequest-error" : undefined}
                             />
                         </label>
-                        {errors?.specialRequest?.message && (
-                            <small id="specialRequest-error" role="alert" className="text-red-600 block mt-1">{errors.specialRequest.message}</small>
+                        {formError?.specialRequest && (
+                            <small id="specialRequest-error" role="alert" className="text-red-600 animate-pulse  block mt-1">{formError.specialRequest}</small>
                         )}
                     </div>
                 </div>
 
 
-                <div className="flex relative z-10 gap-4 flex-col md:flex-row">
+                <div className="flex relative  z-10 gap-4 flex-col md:flex-row">
                     <button onClick={() => {
                         clearTempStorage();
                         navigate(-1)
