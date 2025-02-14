@@ -13,6 +13,17 @@ import { motion } from "framer-motion";
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
 
+
+interface FormErrorType {
+    name?: string;
+    email?: string;
+    specialRequest?: string;
+}
+
+interface ErrorState {
+    message: string;
+    type?: string;
+}
 export default function AttendeeDetails() {
     const [imageUrl, setImageUrl] = useState(() => {
         const saved = localStorage.getItem('userUrl');
@@ -30,15 +41,12 @@ export default function AttendeeDetails() {
         loading: false,
         errorMessage: null
     })
-    const [timeoutError,setTimeoutError] = useErrorTImeout(null)
-    const [formError,setFormError] = useErrorTImeout(null)
-
-
-    
+    const [timeoutError, setTimeoutError] = useErrorTImeout<ErrorState | null>(null)
+    const [formError, setFormError] = useErrorTImeout<FormErrorType | null | ErrorState>(null)
 
 
 
-    const {  loading } = state;
+    const { loading } = state;
     const navigate = useNavigate()
     const schema = yup.object().shape({
         name: yup.string().required("Name is required"),
@@ -50,16 +58,16 @@ export default function AttendeeDetails() {
         resolver: yupResolver(schema)
     })
 
-    useEffect(()=>{
-      if(errors?.name?.message || errors?.email?.message || errors?.specialRequest?.message){
-        setFormError({
-            name : errors?.name?.message,
-            email : errors?.email?.message,
-            specialRequest: errors?.specialRequest?.message,
-        })
-      }
+    useEffect(() => {
+        if (errors?.name?.message || errors?.email?.message || errors?.specialRequest?.message) {
+            setFormError({
+                name: errors?.name?.message,
+                email: errors?.email?.message,
+                specialRequest: errors?.specialRequest?.message,
+            })
+        }
 
-    },[errors,setFormError])
+    }, [errors, setFormError])
 
     useEffect(() => {
         if (imageUrl) {
@@ -78,7 +86,7 @@ export default function AttendeeDetails() {
     };
 
 
-  
+
 
     const { name, email, specialRequest } = credential;
 
@@ -90,6 +98,12 @@ export default function AttendeeDetails() {
         try {
             setState(prev => ({ ...prev, loading: true }))
             const file = acceptedFiles[0] as FileWithPreview;
+
+            const maxSize = 5 * 1024 * 1024;
+
+            if (file.size > maxSize) {
+                throw new Error("File size exceeds 5MB limit");
+            }
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", UPLOAD_PRESET);
@@ -104,7 +118,7 @@ export default function AttendeeDetails() {
             console.error("Could not submit file", error?.message)
             if (error) {
                 setState(prev => ({ ...prev, errorMessage: "Could not submit file" }))
-                setTimeoutError("Could not submit file")
+                setTimeoutError({ message: "Could not submit file" })
             }
         }
 
@@ -129,31 +143,33 @@ export default function AttendeeDetails() {
         try {
 
             if (imageUrl === "" || imageUrl === null || !imageUrl) {
-                console.error("Provide your image")
-                setState(prev => ({ ...prev, loading: false, errorMessage: "Provide your image" }))
-                setTimeoutError("Provide your image")
-                return
+                const errorMsg = "Provide your image";
+                setState(prev => ({ ...prev, loading: false, errorMessage: errorMsg }));
+                setTimeoutError({ message: errorMsg });
+                return;
             }
 
             if (!credential || !imageUrl) {
-                console.log("fill in all the form")
-                setState(prev => ({ ...prev, loading: false, errorMessage: "Fill in the form" }))
-                setTimeoutError("Fill in the form")
-                return
+                const errorMsg = "Fill in the form";
+                setState(prev => ({ ...prev, loading: false, errorMessage: errorMsg }));
+                setTimeoutError({ message: errorMsg });
+                return;
             }
-            setState(prev => ({ ...prev, loading: true, errorMessage: "" }))
+
+            setState(prev => ({ ...prev, loading: true, errorMessage: "" }));
             const data = {
                 name,
                 email,
                 specialRequest,
                 imageUrl,
-            }
-            localStorage.setItem("personInfo", JSON.stringify(data))
+            };
+            localStorage.setItem("personInfo", JSON.stringify(data));
             clearTempStorage();
-            navigate('/book-ticket')
-        } catch (err: any) {
-            setTimeoutError(err.message)
-            setState(prev => ({ ...prev, loading: false, errorMessage: err.message }))
+            navigate('/book-ticket');
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : "An unknown error occurred";
+            setTimeoutError({ message: errorMsg });
+            setState(prev => ({ ...prev, loading: false, errorMessage: errorMsg }));
         }
 
     }
@@ -162,17 +178,17 @@ export default function AttendeeDetails() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} aria-labelledby="attendee-details-title" className="rounded-2xl animate__animated animate__fadeInDown relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
             <h1 id="attendee-details-title" className="sr-only">Attendee Details Form</h1>
-            <motion.div 
+            <motion.div
                 initial={{ y: -20 }}
                 animate={{ y: 0 }}
                 className="flex justify-between items-center"
             >
                 <h2 className="text-base md:text-lg font-semibold">Ready</h2>
-                <p className="text-sm md:text-base text-[#24A0B5]">Step 2/3</p>
+                <p className="text-sm md:text-base ">Step 2/3</p>
             </motion.div>
 
-       
-            <motion.span 
+
+            <motion.span
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
@@ -195,21 +211,23 @@ export default function AttendeeDetails() {
                                 </span>
                                 <p className="text-sm md:text-base">
                                     {loading ?
-                                        <span className="animate-spin inline-block"><RiLoader2Fill /></span> :(<>
-                                        <p> Drag & drop or click to upload</p>
-                                        <small className="text-red-500 absolute left-8 bottom-2 text-[.4rem] ">image of [jpg,png,jpeg,webp] and max size of 5MB</small>
+                                        <span className="animate-spin inline-block"><RiLoader2Fill /></span> : (<>
+                                            <p> Drag & drop or click to upload</p>
+                                            <small className="text-red-500 absolute left-8 bottom-2 text-[.4rem] ">image of [jpg,png,jpeg,webp] and max size of 5MB</small>
                                         </>)
-                                       
+
                                     }
                                 </p>
                             </div>
                         )}
                     </div>
                 </div>
-
-                <small role="alert" className="text-red-500 text-center md:text-left md:relative md:-top-10 md:left-[16rem] md:mx-auto md:w-fit md:ml-8">{timeoutError}</small>
+                <small role="alert" className="text-red-500 text-center">
+                    {timeoutError?.message}
+                </small>
 
                 <div className="grid gap-6">
+
                     <div className="space-y-2">
                         <label htmlFor="name" className="block text-sm md:text-base">
                             Enter Your Name
@@ -225,8 +243,8 @@ export default function AttendeeDetails() {
                                 aria-describedby={errors.name ? "name-error" : undefined}
                             />
                         </label>
-                        {formError?.name && (
-                            <small id="name-error" role="alert" className="text-red-600 animate-pulse block mt-1">{formError?.name}</small>
+                        {formError && "name" in formError && formError?.name && (
+                            <small id="name-error" role="alert" className="text-red-600 animate-pulse block mt-1">{formError.name}</small>
                         )}
                     </div>
 
@@ -250,7 +268,7 @@ export default function AttendeeDetails() {
                                 />
                             </div>
                         </label>
-                        {formError?.email && (
+                        {formError && "email" in formError && formError.email && (
                             <small id="email-error" role="alert" className="text-red-600 animate-pulse block mt-1">{formError?.email}</small>
                         )}
                     </div>
@@ -270,7 +288,7 @@ export default function AttendeeDetails() {
                                 aria-describedby={errors.specialRequest ? "specialRequest-error" : undefined}
                             />
                         </label>
-                        {formError?.specialRequest && (
+                        {formError && "specialRequest" in formError && formError.specialRequest && (
                             <small id="specialRequest-error" role="alert" className="text-red-600 animate-pulse  block mt-1">{formError.specialRequest}</small>
                         )}
                     </div>

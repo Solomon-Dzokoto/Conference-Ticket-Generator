@@ -1,17 +1,17 @@
 import { useState,useEffect } from "react"
 
-const useErrorTImeout = (initialErr : string | null ,delay=5000) => {
-    const [error,setError] = useState<string|null>(initialErr)
+function useErrorTImeout<T> (initialErr : T):[T,(value:T)=>void] {
+    const [error,setError] = useState<T>(initialErr)
 
     useEffect(()=>{
         if(error){
             const timer = setTimeout(()=>{
-                setError(null)
-        },delay)
+                setError(initialErr)
+        },4000)
         return ()=> clearTimeout(timer)
     }
      
-    },[delay,error])
+    },[error,initialErr])
 
   return [error,setError ] as const
 }
