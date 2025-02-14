@@ -99,8 +99,8 @@ const BookTicket = () => {
                     </div>
                 </div>
                 <div onClick={() => navigate("/")} className="flex mt-8 relative z-10 gap-4 flex-col md:flex-row">
-                    <button aria-label="Book another ticket" className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">Book Another Ticket</button>
-                    <button type="button" aria-label="Download ticket" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] cursor-pointer text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">Download Ticket</button>
+                    <button aria-label="Book another ticket" className="w-full transition-all transition-scale duration-300 hover:scale-[1.05]   transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">Book Another Ticket</button>
+                    <button type="button" aria-label="Download ticket" className="w-full hover:scale-[1.05]  border  p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] cursor-pointer text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] transition-all transition-scale duration-300 rounded-md text-sm md:text-base">Download Ticket</button>
                 </div>
             </div>
         </div>

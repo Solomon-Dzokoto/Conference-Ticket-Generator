@@ -78,7 +78,7 @@ export default function AttendeeDetails() {
             setState(prev => ({ ...prev, loading: false, errorMessage: "" }))
             return data.secure_url;
         } catch (error: any) {
-            console.error("Could not submit file", error.message)
+            console.error("Could not submit file", error?.message)
             if (error) {
                 setState(prev => ({ ...prev, errorMessage: "Could not submit file" }))
             }
@@ -105,7 +105,7 @@ export default function AttendeeDetails() {
         try {
 
             if (imageUrl === "" || imageUrl === null || !imageUrl) {
-                console.log("Provide your image")
+                console.error("Provide your image")
                 setState(prev => ({ ...prev, loading: false, errorMessage: "Provide your image" }))
                 return
             }
@@ -245,10 +245,10 @@ export default function AttendeeDetails() {
                     <button onClick={() => {
                         clearTempStorage();
                         navigate(-1)
-                    }} className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">
+                    }} className="w-full transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:scale-[1.05]  hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">
                         Back
                     </button>
-                    <button disabled={loading} type="submit" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">
+                    <button disabled={loading} type="submit" className="w-full p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] text-[#f4f4f4] hover:scale-[1.05] cursor-pointer border  hover:bg-[#041E23] hover:text-[#24A0B5] rounded-md text-sm md:text-base">
                         {loading ? "Wait..." : "Get My Free Ticket"}
                     </button>
                 </div>

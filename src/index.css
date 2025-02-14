@@ -6,3 +6,7 @@
 :root {
     --font-roadRage: 'Road Rage', sans-serif;
 }
+
+.font-roadRage {
+    font-family: 'Road Rage', "cursive";
+  }
