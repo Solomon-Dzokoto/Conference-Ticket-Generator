@@ -1,6 +1,7 @@
 import { data } from "./SelectTicketDetails";
 import { getDetails } from "../context/getDataStored";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 
 const BookTicket = () => {
@@ -26,11 +27,24 @@ const BookTicket = () => {
 
     return (
         <div className="w-[90%] md:w-[80vw] grid  gap-4 mx-auto relative z-10  px-4 md:px-0">
-            <div className="flex justify-between items-center">
-                <h2 className="text-base md:text-lg">Ready</h2>
-                <p className="text-sm md:text-base">Step 3/3</p>
-            </div>
-            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[25%]  after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
+           
+            <motion.div 
+                initial={{ y: -20 }}
+                animate={{ y: 0 }}
+                className="flex justify-between items-center"
+            >
+                <h2 className="text-base md:text-lg font-semibold">Ready</h2>
+                <p className="text-sm md:text-base text-[#24A0B5]">Step 3/3</p>
+            </motion.div>
+
+       
+            <motion.span 
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="w-full h-1 mb-8 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[25%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"
+            />
+
             <div aria-labelledby="ticket-confirmation-title">
                 <h1 id="ticket-confirmation-title" className="text-xl md:text-[2rem] font-semibold text-center text-white ">
                     Your Ticket is Booked!
@@ -45,7 +59,7 @@ const BookTicket = () => {
                             </h2>
                             <div className="text-center text-[.6rem] md:text-sm mb-4">
                                 <p className="flex items-center justify-center gap-2">
-                                    📍 04 Rumens Road, Ikoyi, Lagos
+                                    📍 Accra Mall, Accra, Ghana
                                 </p>
                                 <p className="flex items-center justify-center gap-2">
                                     📅 March 15, 2025 | 🕖 7:00 PM
@@ -99,7 +113,7 @@ const BookTicket = () => {
                     </div>
                 </div>
                 <div onClick={() => navigate("/")} className="flex mt-8 relative z-10 gap-4 flex-col md:flex-row">
-                    <button aria-label="Book another ticket" className="w-full transition-all transition-scale duration-300 hover:scale-[1.05]   transition-colors cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">Book Another Ticket</button>
+                    <button aria-label="Book another ticket" className="w-full transition-all transition-scale duration-300 hover:scale-[1.05]   cursor-pointer p-3 md:p-4 border border-[#24A0B5] bg-[#041E23] text-[#24A0B5] hover:bg-[#24A0B5] hover:text-[#f4f4f4] rounded-md text-sm md:text-base">Book Another Ticket</button>
                     <button type="button" aria-label="Download ticket" className="w-full hover:scale-[1.05]  border  p-3 md:p-4 bg-[#24A0B5] border-[#24A0B5] cursor-pointer text-[#f4f4f4] hover:bg-[#041E23] hover:text-[#24A0B5] transition-all transition-scale duration-300 rounded-md text-sm md:text-base">Download Ticket</button>
                 </div>
             </div>

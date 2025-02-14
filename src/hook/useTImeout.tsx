@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react"
 
-const useTImeout = (initialErr : string | null ,delay=5000) => {
+const useErrorTImeout = (initialErr : string | null ,delay=5000) => {
     const [error,setError] = useState<string|null>(initialErr)
 
     useEffect(()=>{
@@ -16,4 +16,4 @@ const useTImeout = (initialErr : string | null ,delay=5000) => {
   return [error,setError ] as const
 }
 
-export default useTImeout
+export default useErrorTImeout

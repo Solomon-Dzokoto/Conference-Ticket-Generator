@@ -8,8 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom";
 import { RiLoader2Fill } from "react-icons/ri";
-import useTImeout from "../hook/useTImeout";
-import { time } from "framer-motion";
+import useErrorTImeout from "../hook/useTImeout";
+import { motion } from "framer-motion";
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_RESET;
 
@@ -30,8 +30,8 @@ export default function AttendeeDetails() {
         loading: false,
         errorMessage: null
     })
-    const [timeoutError,setTimeoutError] = useTImeout(null)
-    const [formError,setFormError] = useTImeout(null)
+    const [timeoutError,setTimeoutError] = useErrorTImeout(null)
+    const [formError,setFormError] = useErrorTImeout(null)
 
 
     
@@ -77,11 +77,7 @@ export default function AttendeeDetails() {
         localStorage.removeItem('userInfo');
     };
 
-   useEffect(()=>{
-   if(!window.location.href.includes( "attendee-ticket")){
-     clearTempStorage()
-   } 
-   },[])
+
   
 
     const { name, email, specialRequest } = credential;
@@ -166,13 +162,22 @@ export default function AttendeeDetails() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} aria-labelledby="attendee-details-title" className="rounded-2xl animate__animated animate__fadeInDown relative z-10  p-4 md:p-8 min-h-[38rem] grid gap-4 md:gap-8 border-[#0E464F] w-[90%] md:w-[48rem] bg-[#04272e] mx-auto border">
             <h1 id="attendee-details-title" className="sr-only">Attendee Details Form</h1>
-            <div className="flex justify-between items-center">
-                <h2 className="text-lg md:text-xl">Ticket Selection</h2>
-                <p className="text-sm md:text-base">Step 2/3</p>
-            </div>
+            <motion.div 
+                initial={{ y: -20 }}
+                animate={{ y: 0 }}
+                className="flex justify-between items-center"
+            >
+                <h2 className="text-base md:text-lg font-semibold">Ready</h2>
+                <p className="text-sm md:text-base text-[#24A0B5]">Step 2/3</p>
+            </motion.div>
 
-
-            <span className="w-full h-1 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[50%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"></span>
+       
+            <motion.span 
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="w-full h-1 mb-8 relative after:bottom-0 after:left-0 after:absolute after:top-0 after:right-[55%] after:bg-[#24A0B5] after:content-[''] bg-[#2C545B]"
+            />
 
             <div className="border-[#0E464F] relative grid gap-4 rounded-2xl p-2 md:p-4 border">
                 <h1 className="text-lg md:text-xl w-fit inline-block">Upload Profile Photo</h1>
